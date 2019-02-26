@@ -1,0 +1,27 @@
+archivesBaseName = 'syh_server_java'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springVersion}")
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile project(":syh_core")
+    compile project(":syh_internethospital_sdk")
+    compile("org.springframework.boot:spring-boot-starter-web:${springVersion}")
+    compile("org.springframework.boot:spring-boot-starter-aop:${springVersion}")
+    compile("org.springframework.boot:spring-boot-starter-websocket:${springVersion}")
+    compile("org.springframework.data:spring-data-mongodb:2.0.8.RELEASE")
+    compile('org.apache.poi:poi-ooxml:3.17')
+    compile('org.apache.poi:poi:3.17')
+    compile('cn.songxinqiang:com.baidu.ueditor:1.1.2-offical')
+    compile('io.springfox:springfox-swagger2:2.9.2')
+    compile('io.springfox:springfox-swagger-ui:2.9.2')
+}

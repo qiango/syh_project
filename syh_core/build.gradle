@@ -1,0 +1,24 @@
+archivesBaseName = 'syh_core'
+
+repositories {
+
+    mavenCentral()
+
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile('net.coobird:thumbnailator:0.4.8')
+    compile('org.apache.commons:commons-lang3:3.7')
+    compile('com.github.binarywang:weixin-java-mp:3.1.0')
+    compile('com.github.binarywang:weixin-java-pay:3.1.0')
+    compile('org.xhtmlrenderer:core-renderer:R8')
+    compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
+    compile('commons-codec:commons-codec: 1.11')
+    compile('com.aliyun.oss:aliyun-sdk-oss:3.1.0')
+    compile("org.springframework.boot:spring-boot-starter-activemq:${springVersion}")
+    compile('com.aliyun:aliyun-java-sdk-core:3.7.1')
+    compile('com.aliyun:aliyun-java-sdk-dysmsapi:1.1.0')
+    compile("org.springframework.boot:spring-boot-starter-mail:${springVersion}")
+}

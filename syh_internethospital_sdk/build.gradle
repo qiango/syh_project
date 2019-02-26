@@ -1,0 +1,7 @@
+archivesBaseName = 'syh_internethospital_sdk'
+
+
+
+dependencies {
+    compile project(":syh_core")
+}

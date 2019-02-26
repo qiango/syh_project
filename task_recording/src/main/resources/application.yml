@@ -1,0 +1,54 @@
+logging:
+  config: classpath:logback.xml  # 制定日志文件配置
+
+base:
+  isonline: 0 #正式测试环境的标记 0:非正式 1:正式
+  filepath: /home/qwq/ #上传文件的缓存位置
+  apilinkurl: https://test.syhdoctor.com/api/
+  jianguan: http://ycapi.syhdoctor.com/jianguan_test/
+  beian: http://ycapi.syhdoctor.com/beian_test
+
+#微信公众号的配置
+wechat:
+  syhapp:  #山屿海app支付
+    appid: wxf7d2908ac1a51deb1
+    secret: 47baf6cdedab128e80fa0627c8606d6c1
+    mchid: 15155620111
+    mchkey: 12345qwert67890yuiopQWERTYUIOPas1
+    keypath: cert/app/1515562011_20181008_cert.p12
+  syhweb:  #山屿海公众号
+    appid: wxcf2452dc3dffff801
+    secret: fe88f5e182337553c7529fb599e937f51
+    mchid: 15153421511
+    mchkey: 12345qwert67890yuiopQWERTYUIOPas1
+    keypath: cert/web/apiclient_cert.p12
+
+
+#数据库连接配置
+spring:
+  mail:
+    host: smtp.exmail.qq.com
+    username: SOS@syhdoctor.com
+    password: Syh1q2w#E$R
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.20.84:3306/syhdb?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: windows_2013
+    type: com.alibaba.druid.pool.DruidDataSource
+  #  data:
+  #    mongodb:
+  #      uri: mongodb://test:windows_2013@172.16.20.83:27017/testdb  #mongodb数据库
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+    pool:
+      enabled: false

@@ -1,0 +1,23 @@
+archivesBaseName = 'syh_server_task_recording'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springVersion}")
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    compile project(":syh_core")
+    //compile("org.springframework.boot:spring-boot-starter-data-redis:${springVersion}")
+    //compile("org.springframework.data:spring-data-mongodb:2.0.8.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-mail:${springVersion}")
+    compile('org.apache.poi:poi-ooxml:3.17')
+    compile('org.apache.poi:poi:3.17')
+    compile ('com.squareup.okhttp:okhttp:2.2.0')
+    compile('io.netty:netty:3.7.0.Final')
+}

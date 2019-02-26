@@ -1,0 +1,37 @@
+swagger:
+  base:
+    apiPath: /api #swagger根目录
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 9100 # 服务端口
+  tomcat:
+    uri-encoding: UTF-8   # tomcat的URI编码
+    max-threads: 800      # tomcat最大线程数，默认为200
+
+logging:
+  config: classpath:logback.xml  # 制定日志文件配置
+
+base:
+  isonline: 0 #正式测试环境的标记 0:非正式 1:正式
+  filepath: /data/test/springboot/     #上传文件的缓存位置
+  picdomain: https://resource.syhdoctor.com/
+  doctorpicurl: https://test.syhdoctor.com/api/localdoctor/upload/getLocalFile/                       #医生相关图片前缀
+
+
+#数据库连接配置
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100Mb     #上传文件大小限制
+      max-request-size: 100Mb  #上传文件大小限制
+  mvc:
+    favicon:
+      enabled: false  # tomcat ico 图标定制
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.20.84:3306/syhdb?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: windows_2013
+    type: com.alibaba.druid.pool.DruidDataSource

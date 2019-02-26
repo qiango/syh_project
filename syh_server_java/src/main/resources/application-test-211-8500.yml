@@ -1,0 +1,84 @@
+swagger:
+  base:
+    apiPath: /api #swagger根目录
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8500  # 服务端口
+  tomcat:
+    uri-encoding: UTF-8   # tomcat的URI编码
+    max-threads: 800      # tomcat最大线程数，默认为200
+
+logging:
+  config: classpath:logback.xml  # 制定日志文件配置
+
+base:
+  isonline: 0 #正式测试环境的标记 0:非正式 1:正式
+  filepath: /data/test/springboot/     #上传文件的缓存位置
+  apilinkurl: https://test.syhdoctor.com/api/
+  jianguan: http://ycapi.syhdoctor.com/jianguan_test/
+  beian: http://ycapi.syhdoctor.com/beian_test/
+  #  jianguan: http://ycapi.syhdoctor.com/jianguan/
+  #  beian: http://ycapi.syhdoctor.com/beian/
+  picdomain: https://resource.syhdoctor.com/
+  doctorpicurl: https://test.syhdoctor.com/api/localdoctor/upload/getLocalFile/                       #医生相关图片前缀
+  apkpicurl: https://test.syhdoctor.com/api/localdoctor/upload/downfile/                      #医生相关图片前缀
+  localimg: https://test.syhdoctor.com/api/Local/Upload/getLocalImg/
+  weblinkurl: https://test.syhdoctor.com/
+  websocketlinkurl: http://127.0.0.1:8600/
+
+#微信公众号的配置
+wechat:
+  syhapp:  #山屿海app支付
+    appid: wxf7d2908ac1a51deb
+    secret: 47baf6cdedab128e80fa0627c8606d6c
+    mchid: 1515562011
+    mchkey: 12345qwert67890yuiopQWERTYUIOPas
+    keypath: cert/app/1515562011_20181008_cert.p12
+  syhweb:  #山屿海公众号
+    appid: wxcf2452dc3dffff80
+    secret: fe88f5e182337553c7529fb599e937f5
+#    appid: wx6bf3b338204ebb30
+#    secret: 46511fa702c96ff00898608f359ad12c
+    mchid: 1515342151
+    mchkey: 12345qwert67890yuiopQWERTYUIOPas
+    keypath: cert/web/apiclient_cert.p12
+
+#银联账号配置
+unionpay:
+  appid: up_1j742uh6g67h_qhf8
+  secret: 553805d9d25c7955d0dd4d74bc6c2786
+  signature: 1q2w3e4r0p9o8i7u
+
+
+#数据库连接配置
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100Mb     #上传文件大小限制
+      max-request-size: 100Mb  #上传文件大小限制
+  mvc:
+    favicon:
+      enabled: false  # tomcat ico 图标定制
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.0.0.3:7510/syhdbtest?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    username: syh_test
+    password: Syh=3.1415
+    type: com.alibaba.druid.pool.DruidDataSource
+  data:
+    mongodb:
+      uri: mongodb://syhtest:syh=3.1415@10.0.0.3:7530/syhmongodbtest  #mongodb数据库
+  redis:
+    host: 10.0.0.3 # Redis服务器地址
+    port: 7521          # Redis服务器连接端口
+    password: Syh=3.1415   # Redis服务器连接密码（默认为空）
+    database: 0         # Redis数据库索引（默认为0）
+    jedis:
+      pool:
+        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 8   # 连接池中的最大空闲连接
+        min-idle: 0   # 连接池中的最小空闲连接
+        max-wait: -1  # 连接池最大阻塞等待时间（使用负值表示没有限制）
+    timeout: 10000    # 连接超时时间（毫秒）

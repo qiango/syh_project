@@ -1,0 +1,739 @@
+https://johnvansickle.com/ffmpeg/    ffmpeg工具最新下载地址
+
+银联测试账号：syhtest 密码：syh123456
+
+启动redis:./usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf
+
+version：1.0.0
+
+公众号菜单正式：
+{
+    "button": [
+        {
+            "name": "健康必读",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "康养大学",
+                    "url": "https://www.syhdoctor.com/api/Menu/GetCode?target=1"
+                },
+                {
+                    "type": "view",
+                    "name": "健康头条",
+                    "url": "https://www.syhdoctor.com/api/Menu/GetCode?target=3"
+                }
+            ]
+        },
+        {
+            "name": "健康服务",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "快捷咨询",
+                    "url": "https://www.syhdoctor.com/api/Menu/GetCode?target=8"
+                },
+                {
+                    "type": "view",
+                    "name": "特色专科",
+                    "url": "https://www.syhdoctor.com/api/Menu/GetCode?target=14"
+                },
+                {
+                    "type": "view",
+                    "name": "本院专家",
+                    "url": "https://www.syhdoctor.com/api/Menu/GetCode?target=5"
+                },
+                {
+                    "type": "view",
+                    "name": "绿通挂号",
+                    "url": "https://www.syhdoctor.com/api/Menu/GetCode?target=13"
+                }
+            ]
+        },
+        {
+            "type": "view",
+            "name": "个人中心",
+            "url": "https://www.syhdoctor.com/api/Menu/GetCode?target=9",
+            "sub_button": [
+
+            ]
+        }
+    ]
+}
+
+公众号菜单测试：
+{
+    "button": [
+        {
+            "name": "健康必读",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "康养大学",
+                    "url": "https://test.syhdoctor.com/api/Menu/GetCode?target=1"
+                },
+                {
+                    "type": "view",
+                    "name": "健康头条",
+                    "url": "https://test.syhdoctor.com/api/Menu/GetCode?target=3"
+                }
+            ]
+        },
+        {
+            "name": "健康服务",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "快捷咨询",
+                    "url": "https://test.syhdoctor.com/api/Menu/GetCode?target=8"
+                },
+                {
+                    "type": "view",
+                    "name": "特色专科",
+                    "url": "https://test.syhdoctor.com/api/Menu/GetCode?target=12"
+                },
+                {
+                    "type": "view",
+                    "name": "本月专家",
+                    "url": "https://test.syhdoctor.com/api/Menu/GetCode?target=5"
+                },
+                {
+                    "type": "view",
+                    "name": "绿通挂号",
+                    "url": "https://test.syhdoctor.com/api/Menu/GetCode?target=13"
+                }
+            ]
+        },
+        {
+            "type": "view",
+            "name": "个人中心",
+            "url": "https://test.syhdoctor.com/api/Menu/GetCode?target=9",
+            "sub_button": [
+
+            ]
+        }
+    ]
+}
+
+ALTER TABLE doctor_extends ADD doctortype int NULL COMMENT '1：诊疗医生：2：审核医生，3：审方医生';
+ALTER TABLE doctor_extends ALTER COLUMN doctortype SET DEFAULT 1;
+alter table sys_permission add column imagename varchar(50) comment '导航栏图片名称';
+
+
+//修改文件路径
+update doctor_info set employ_file_url=CONCAT('file-doctor-',employ_file_url),
+                       doc_photo_url = CONCAT('file-doctor-',doc_photo_url),
+                       digital_sign_url = CONCAT('file-doctor-',digital_sign_url),
+                       digital_sign_url_thumbnail= CONCAT('file-doctor-',digital_sign_url_thumbnail),
+                       hos_digital_sign=CONCAT('file-doctor-',hos_digital_sign)
+where ifnull(delflag,0)=0 and examine=2;
+update doc_id_card_list set url=concat('file-doctor-',url);
+update doc_cert_list set url=concat('file-doctor-',url);
+update doc_cert_doc_prac_list set url=concat('file-doctor-',url);
+update doc_title_cert_list set url=concat('file-doctor-',url);
+update doc_multi_sited_lic_record_list set doc_multi_sited_lic_record_url=concat('file-doctor-',doc_multi_sited_lic_record_url);
+
+//将file/doctor/phone/中移动到file/phone/
+update doctor_phone_order set record_url=REPLACE(record_url, '/', '-') where status=4;
+update doctor_phone_order set record_url=concat('file-',record_url) where status=4;
+
+//旧数据
+update doc_prescription set pres_photo_url=concat('file-doctor-',pres_photo_url);
+
+-- auto-generated definition
+create table feedback_operation_record
+(
+  id          bigint auto_increment
+  comment 'id'
+    primary key,
+  feedbackid  bigint  not null
+  comment '反馈id',
+  delflag     tinyint null,
+  create_time bigint  null
+  comment '创建时间',
+  create_user bigint  null
+  comment '创建人',
+  modify_time bigint  null
+  comment '修改时间',
+  modify_user bigint  null
+  comment '修改人'
+)
+  comment '反馈操作记录'
+  charset = utf8mb4;
+
+  -- auto-generated definition
+  create table face_value
+  (
+    id    bigint auto_increment
+      primary key,
+    value bigint null
+    comment '面值'
+    charset = utf8mb4;
+  );
+
+  1	10000
+  2	50000
+  3	100000
+
+version：1.0.1
+alter table sys_user add column imagename varchar(100) comment '管理员头像名称';
+
+//导航栏查询图片尺寸
+DROP TABLE IF EXISTS `album_size`;
+CREATE TABLE `album_size`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `big_size_length` bigint(100) NULL DEFAULT NULL COMMENT '大图长',
+  `big_size_width` bigint(100) NULL DEFAULT NULL COMMENT '大图宽',
+  `small_size_length` bigint(100) NULL DEFAULT NULL COMMENT '小图长',
+  `small_size_width` bigint(100) NULL DEFAULT NULL COMMENT '小图宽',
+  `album_id` bigint(100) NULL DEFAULT NULL COMMENT 'album表id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of album_size
+-- ----------------------------
+INSERT INTO `album_size` VALUES (1, 20, 20, 10, 10, 6);
+INSERT INTO `album_size` VALUES (2, 40, 40, 20, 20, 8);
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+alter table doctor_sitting add column shift int(11) comment '0:早，1：晚';
+
+
+
+
+-- auto-generated definition
+create table common_disease_symptoms_type
+(
+  id          bigint auto_increment
+  comment 'id'
+    primary key,
+  name        varchar(255)        not null
+  comment '症状分类名',
+  delflag     tinyint default '0' null,
+  sort        int                 null
+  comment '排序',
+  create_time bigint              null,
+  create_user bigint              null,
+  modify_time bigint              null,
+  modify_user bigint              null
+)
+  comment '常见病症状类型表'
+  charset = utf8mb4;
+
+
+ALTER TABLE common_disease_symptoms ADD typeid int NULL COMMENT '症状分类id';
+
+create table middle_department_symptoms_type
+(
+  id          bigint auto_increment
+  comment 'id'
+    primary key,
+  departmentid     bigint              not null
+  comment '科室id',
+  typeid varchar(255)        not null
+  comment '常见病症状类型id',
+  delflag     tinyint default '0' null,
+  create_time bigint              null,
+  create_user bigint              null,
+  modify_time bigint              null,
+  modify_user bigint              null
+)
+  comment '科室与常见病症状分类中间表'
+  charset = utf8mb4;
+
+  version：1.0.2
+
+  ALTER TABLE user_account ADD address varchar(255) NULL COMMENT '详细地址';
+  ALTER TABLE user_account ADD kangyang_vip_grade varchar(255) NULL COMMENT '康养渠道会员等级';
+  ALTER TABLE user_account ADD age int DEFAULT 0 NULL COMMENT '年龄';
+  ALTER TABLE user_account ADD kangyang_userid varchar(255) NULL COMMENT '康养用户id';
+  ALTER TABLE user_account MODIFY token varchar(255) COMMENT '本地用戶token';
+  ALTER TABLE doctor_phone_order ADD marketprice bigint NULL COMMENT '原价';
+  ALTER TABLE doctor_phone_order ADD discount double DEFAULT 1 NULL COMMENT '折扣';
+  ALTER TABLE doctor_problem_order ADD discount double DEFAULT 1 NULL COMMENT '折扣';
+  ALTER TABLE audit_record ADD fund_type double DEFAULT 1 NULL COMMENT '打款状态';
+  ALTER TABLE doctor_extract_order ADD failreason double DEFAULT 1 NULL COMMENT '失败原因';
+
+  -- auto-generated definition
+  create table user_member
+  (
+    id                         bigint auto_increment
+      primary key,
+    userid                     bigint              null,
+    vipcardname                varchar(100)        null
+    comment '会员卡名称',
+    vipcardno                  varchar(100)        null
+    comment '会员卡号',
+    vip_expiry_time            bigint(100)         null
+    comment '到期时间',
+    health_consultant          varchar(50)         null
+    comment '尊享权益-健康顾问',
+    medical_green              varchar(50)         null
+    comment '尊享权益-医疗绿通',
+    medical_expert             varchar(50)         null
+    comment '尊享权益-医学专家',
+    health_consultant_ceefax   bigint              null
+    comment '健康顾问的图文次数,保留',
+    health_consultant_phone    bigint              null
+    comment '健康顾问的电话次数,保留',
+    medical_expert_ceefax      bigint              null
+    comment '医学专家图文次数,保留',
+    medical_expert_phone       bigint              null
+    comment '医学专家电话次数,保留',
+    medical_expert_video       bigint              null
+    comment '医学专家视频次数,保留',
+    medical_green_num          bigint              null
+    comment '绿通次数,保留',
+    health_consultant_discount double(20, 2)       null
+    comment '健康顾问折扣,保留',
+    medical_expert_discount    double(20, 2)       null
+    comment '医学专家折扣,保留',
+    create_time                bigint              null,
+    create_user                bigint              null,
+    modify_time                bigint              null,
+    modify_user                bigint              null,
+    delflag                    tinyint default '0' null,
+    is_enabled                 int(5)              null
+    comment '会员卡是否生效0：未生效，1：生效',
+    level                      int(5)              null
+    comment '会员等级',
+    upgrade_integral           bigint(100)         null
+    comment '升级所需积分',
+    current_integral           bigint(100)         null
+    comment '当前积分',
+    is_expire                  int(5)              null
+    comment '1:未到期，0：已到期',
+    ceefax                     int(50)             null
+    comment '图文次数',
+    video                      int(50)             null
+    comment '视频次数',
+    vipcardid                  bigint(50)          null
+    comment '会员卡id',
+    discount                   double(10, 2)       null
+    comment '折扣'
+  )
+    comment '用户尊享会员表'
+    charset = utf8mb4;
+
+    -- auto-generated definition
+    create table vip_card
+    (
+      id                         bigint auto_increment
+        primary key,
+      vipcardno                  varchar(100)                 null
+      comment '会员卡号',
+      vipcardname                varchar(100)                 null
+      comment '会员卡名称',
+      price                      bigint(100)                  null
+      comment '原价价格',
+      health_consultant          varchar(50)                  null
+      comment '尊享权益-健康顾问',
+      medical_expert             varchar(50)                  null
+      comment '尊享权益-医学专家',
+      medical_green              varchar(50)                  null
+      comment '尊享权益-医疗绿通',
+      health_consultant_ceefax   bigint                       null
+      comment '健康顾问的图文次数,暂时不用，保留',
+      health_consultant_phone    bigint                       null
+      comment '健康顾问的电话次数,暂时不用，保留',
+      medical_expert_ceefax      bigint                       null
+      comment '医学专家图文次数,暂时不用，保留',
+      medical_expert_phone       bigint                       null
+      comment '医学专家电话次数,暂时不用，保留',
+      medical_expert_video       bigint                       null
+      comment '医学专家视频次数,暂时不用，保留',
+      medical_green_num          bigint                       null
+      comment '绿通次数,暂时不用，保留',
+      health_consultant_discount double(10, 2)                null
+      comment '健康顾问折扣,保留',
+      medical_expert_discount    double(10, 2)                null
+      comment '医学专家折扣，保留',
+      effective_time             bigint                       null
+      comment '可用时间,单位/年',
+      create_time                bigint                       null,
+      create_user                bigint                       null,
+      modify_time                bigint                       null,
+      modify_user                bigint                       null,
+      delflag                    tinyint default '0'          null,
+      renewal_fee                bigint(100)                  null
+      comment '续费价格',
+      ceefax                     int(50)                      null
+      comment '图文次数',
+      video                      int(50)                      null
+      comment '视频次数',
+      original_price             bigint(100)                  null
+      comment '原价',
+      sort                       int(5)                       null
+      comment '排序',
+      discount                   double(10, 2) default '1.00' null
+      comment '折扣'
+    )
+      comment '会员卡'
+      charset = utf8mb4;
+
+      -- auto-generated definition
+      create table vip_order
+      (
+        id                         bigint auto_increment
+          primary key,
+        userid                     bigint              null,
+        status                     int(5)              null
+        comment '1:未支付，4:交易完成',
+        pay_type                   int(5)              null
+        comment '支付方式',
+        pay_status                 tinyint(5)          null
+        comment '1:未支付,2:已支付',
+        vipcardno                  varchar(100)        null
+        comment '会员卡号',
+        vipcardname                varchar(100)        null
+        comment '会员卡名称',
+        price                      bigint(100)         null
+        comment '价格',
+        effective_time             int(5)              null
+        comment '可用时间',
+        delflag                    tinyint default '0' null,
+        create_time                bigint              null,
+        create_user                bigint              null,
+        modify_time                bigint              null,
+        modify_user                bigint              null,
+        vip_cardid                 bigint              null
+        comment '会员卡号',
+        orderno                    varchar(255)        null
+        comment '订单号',
+        order_type                 int(5)              null
+        comment '0:首冲订单，1：续费订单',
+        ceefax                     int(50)             null
+        comment '图文次数',
+        video                      int(50)             null
+        comment '视频次数',
+        renewal_fee                bigint(100)         null
+        comment '续费价格',
+        discount                   double(100, 2)      null
+        comment '折扣',
+        health_consultant_ceefax   bigint              null
+        comment '健康顾问的图文次数,保留',
+        health_consultant_phone    bigint              null
+        comment '健康顾问的电话次数,保留',
+        medical_expert_ceefax      bigint              null
+        comment '医学专家图文次数,保留',
+        medical_expert_phone       bigint              null
+        comment '医学专家电话次数,保留',
+        medical_expert_video       bigint              null
+        comment '医学专家视频次数,保留',
+        operate_mode               int                 null
+        comment '操作平台：1、后台操作，2：前台操作(默认空)',
+        health_consultant_discount double(10, 2)       null
+        comment '健康顾问折扣,保留',
+        medical_expert_discount    double(10, 2)       null
+        comment '医学专家折扣，保留'
+      )
+        comment '会员卡订单'
+        charset = utf8mb4;
+
+
+-- auto-generated definition
+create table enjoy_level
+(
+  id               bigint auto_increment
+    primary key,
+  current_integral bigint(225)             null
+  comment '尊享值',
+  level            bigint                  null
+  comment '尊享等级',
+  delflag          tinyint(11) default '0' null
+)
+  comment '尊享等级'
+  charset = utf8mb4;
+
+  -- auto-generated definition
+  create table enjoy_type
+  (
+    id            int auto_increment
+      primary key,
+    type          int                null
+    comment '尊享类别',
+    type_describe varchar(255)       null
+    comment '类别描述',
+    delflag       int(4) default '0' null
+  )
+    comment '尊享类别'
+    charset = utf8mb4;
+
+    -- auto-generated definition
+    create table enjoy_value
+    (
+      id               bigint auto_increment
+        primary key,
+      current_integral bigint(225)           null
+      comment '尊享值',
+      price            bigint default '0'    null
+      comment '消费金额',
+      delflag          bigint(4) default '0' null
+    )
+      comment '尊享值'
+      charset = utf8mb4;
+
+
+ALTER TABLE doctor_phone_order ADD originalprice bigint DEFAULT 0 NULL COMMENT '医生原价';
+ALTER TABLE doctor_problem_order ADD originalprice bigint DEFAULT 0 NULL COMMENT '医生原价';
+
+ALTER TABLE doctor_info ADD reason varchar(100) DEFAULT 0 NULL COMMENT '失败原因';
+
+
+
+
+
+
+ALTER TABLE doctor_transaction_record ADD refundflag int NULL COMMENT '0：未退款，1：退款';
+ALTER TABLE doctor_extract_order ADD refundflag int NULL COMMENT '0：未退款，1：已退款';
+
+ALTER TABLE doctor_problem_order ADD issubmit tinyint DEFAULT 0 NULL COMMENT '问诊问题是否已经回答';
+
+
+//医院表
+DROP TABLE IF EXISTS `hospital`;
+CREATE TABLE `hospital`  (
+  `id` bigint(20) NOT NULL,
+  `hospital_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '医院名称',
+  `hospital_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '医院编码',
+  `create_time` bigint(20) NULL DEFAULT NULL,
+  `create_user` bigint(20) NULL DEFAULT NULL,
+  `modify_time` bigint(20) NULL DEFAULT NULL,
+  `modify_user` bigint(20) NULL DEFAULT NULL,
+  `delflag` tinyint(4) NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '医院表' ROW_FORMAT = Dynamic;
+
+
+// Special specialties 特色专科
+DROP TABLE IF EXISTS `special_specialties`;
+CREATE TABLE `special_specialties`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `picture` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片',
+  `symptomtypeid` int(11) NULL DEFAULT NULL COMMENT '症状类型id',
+  `delflag` tinyint(4) NULL DEFAULT 0,
+
+  `create_time` bigint(20) NULL DEFAULT NULL,
+  `create_user` bigint(20) NULL DEFAULT NULL,
+  `modify_time` bigint(20) NULL DEFAULT NULL,
+  `modify_user` bigint(20) NULL DEFAULT NULL,
+
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '医院表' ROW_FORMAT = Dynamic;
+
+  `sort` bigint(255) NULL DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '特色专科' ROW_FORMAT = Dynamic;
+
+
+
+//specialist_counseling 专病咨询
+DROP TABLE IF EXISTS `specialist_counseling`;
+CREATE TABLE `specialist_counseling`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `picture` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片',
+  `delflag` tinyint(4) NULL DEFAULT 0,
+  `create_time` bigint(20) NULL DEFAULT NULL,
+  `create_user` bigint(20) NULL DEFAULT NULL,
+  `modify_time` bigint(20) NULL DEFAULT NULL,
+  `modify_user` bigint(20) NULL DEFAULT NULL,
+  `sort` bigint(255) NULL DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '专病咨询' ROW_FORMAT = Dynamic;
+
+
+
+
+ALTER TABLE special_specialties ADD complextext text DEFAULT 0 NULL COMMENT '复文本';
+ALTER TABLE special_specialties ADD color varchar(50) DEFAULT 0 NULL COMMENT '颜色';
+
+ALTER TABLE specialist_counseling ADD complextext text DEFAULT 0 NULL COMMENT '复文本';
+ALTER TABLE specialist_counseling ADD color varchar(50) DEFAULT 0 NULL COMMENT '复文本';
+
+ALTER TABLE doctor_info ADD hospitalid bigint NULL COMMENT '医院id';
+
+
+
+DROP TABLE IF EXISTS `symptom_type`;
+CREATE TABLE `symptom_type`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `scid` int(11) NULL DEFAULT NULL COMMENT '专病咨询id',
+  `symptomtypeid` int(11) NULL DEFAULT NULL COMMENT '症状类型id',
+  `create_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `modify_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `modify_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `delflag` int(11) NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '专病咨询，症状类型中间表' ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+DROP TABLE IF EXISTS `user_evaluate`;
+CREATE TABLE `user_evaluate`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_number` int(11) NULL DEFAULT NULL COMMENT '订单号',
+  `userid` int(11) NULL DEFAULT NULL COMMENT '用户id',
+  `ordertype` int(11) NULL DEFAULT NULL COMMENT '订单类型',
+  `evaluate` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评星',
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '内容',
+  `doctorid` int(11) NULL DEFAULT NULL COMMENT '医生id',
+  `delflag` int(11) NULL DEFAULT 0 COMMENT '是否删除',
+  `delreason` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '删除原因',
+  `create_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `create_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `modify_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `modify_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户评价' ROW_FORMAT = Dynamic;
+
+
+ALTER TABLE doctor_info ADD hospitalid bigint NULL COMMENT '删除原因';
+
+ALTER TABLE doctor_extends ADD pid bigint NULL COMMENT '顾问绑定的专家ID';
+
+ALTER TABLE doctor_info ADD examine_time bigint NULL COMMENT '信息审核成功时间';
+
+ALTER TABLE hospital_category ALTER COLUMN delflag SET DEFAULT 0; //绿通医院类别delflag默认为0
+ALTER TABLE department_green ALTER COLUMN modify_user SET DEFAULT 0;  //绿通医院科室delflag默认为0
+ALTER TABLE middle_hospital_category ALTER COLUMN delflag SET DEFAULT 0;    //绿通医院类别中间表delflag默认为0
+ALTER TABLE middle_hospital_department ALTER COLUMN delflag SET DEFAULT 0;  //绿通医院科室中间表delflag默认为0
+
+ALTER TABLE hospital_green CHANGE areaid area varchar(50) COMMENT '地区';
+
+ALTER TABLE green_order ADD failreason varchar(255) NULL COMMENT '交易失败原因';
+ALTER TABLE green_order COMMENT = '绿通订单';
+
+
+
+create table salesperson
+(
+  id              bigint auto_increment
+    primary key,
+  invitation_code varchar(50)             null
+  comment '邀请码',
+  name            varchar(100)            null
+  comment '销售员姓名',
+  phone           varchar(100)            null
+  comment '销售员电话',
+  salesman_code   varchar(255)            null
+  comment '销售员编码',
+  create_time     bigint                  null,
+  create_user     bigint                  null,
+  modify_time     bigint                  null,
+  modify_user     bigint                  null,
+  delflag         tinyint(20) default '0' not null
+  comment '是否删除'
+)
+  comment '销售员表';
+
+
+
+create table middle_salesperson_doctor
+(
+  id              bigint auto_increment
+    primary key,
+  invitation_code varchar(100)            null
+  comment '邀请码',
+  salespersonid   bigint                  null
+  comment '销售员id',
+  doctorid        bigint                  null
+  comment '医生id',
+  create_time     bigint                  null,
+  create_user     bigint                  null,
+  modify_time     bigint                  null,
+  modify_user     bigint                  null,
+  delflag         tinyint(20) default '0' not null
+  comment '是否删除'
+)
+  comment '销售员中间表';
+
+
+create table middle_green_order_picture
+(
+  id              bigint auto_increment
+    primary key,
+  greenorderid    bigint                  null
+  comment '绿通订单id',
+  disease_picture varchar(255)            null
+  comment '病症照片',
+  create_time     bigint                  null,
+  create_user     bigint                  null,
+  modify_time     bigint                  null,
+  modify_user     bigint                  null,
+  delflag         tinyint(20) default '0' not null
+  comment '是否删除'
+)
+  comment '绿通订单中间表（病症照片）';
+
+
+ALTER TABLE green_order ADD front_photo varchar(255) NULL COMMENT '身份证照片(前)';
+ALTER TABLE green_order ADD after_photo varchar(255) NULL COMMENT '身份证照片(后)';
+
+
+ALTER TABLE hospital_green ADD hospital_picture_small int NULL;
+ALTER TABLE hospital_green CHANGE hospital_picture hospital_picture_big varchar(255) COMMENT '主页图片(大)';
+ALTER TABLE hospital_green MODIFY hospital_picture_small varchar(255) COMMENT '主页图片（小）';
+
+
+
+
+
+
+
+
+ALTER TABLE green_order ADD disease_time varchar(255) NULL COMMENT '患病时长';
+ALTER TABLE green_order ADD gohospital bigint(20) NULL COMMENT '是否去过医院（0否，1是）';
+ALTER TABLE green_order ADD diagnosis bigint(20) NULL COMMENT '疾病是否确诊（0否，1是）';
+
+
+
+发版本时:将正式库doctor_problem_order diagnosi 改为 diagnosis
+
+
+//version:1.0.3
+//上线将电话订单6的改为4
+
+
+医生排班数据
+//图文
+select din.doctorid,
+       doc_name                                                        docname,
+       in_doc_code                                                     docno,
+       doo_tel                                                         phone,
+       from_unixtime(din.visiting_start_time / 1000, '%Y-%m') starttime1,
+       from_unixtime(din.visiting_start_time / 1000, '%Y-%m-%d %H:%i') starttime,
+       from_unixtime(din.visiting_end_time / 1000, '%Y-%m-%d %H:%i')   endtime
+from doctor_inquiry din
+       inner join doctor_info di on din.doctorid = di.doctorid and ifnull(di.delflag, 0) = 0
+where ifnull(din.delflag, 0) = 0
+order by din.doctorid,din.visiting_start_time;
+
+//电话
+select din.doctorid,
+       doc_name                                                        docname,
+       in_doc_code                                                     docno,
+       doo_tel                                                         phone,
+       from_unixtime(din.visiting_start_time / 1000, '%Y-%m') starttime1,
+       from_unixtime(din.visiting_start_time / 1000, '%Y-%m-%d %H:%i') starttime,
+       from_unixtime(din.visiting_end_time / 1000, '%Y-%m-%d %H:%i')   endtime
+from doctor_onduty din
+       inner join doctor_info di on din.doctorid = di.doctorid and ifnull(di.delflag, 0) = 0
+where ifnull(din.delflag, 0) = 0
+order by din.doctorid,din.visiting_start_time;
+
+//视频
+select din.doctorid,
+       doc_name                                                        docname,
+       in_doc_code                                                     docno,
+       doo_tel                                                         phone,
+       from_unixtime(din.visiting_start_time / 1000, '%Y-%m') starttime1,
+       from_unixtime(din.visiting_start_time / 1000, '%Y-%m-%d %H:%i') starttime,
+       from_unixtime(din.visiting_end_time / 1000, '%Y-%m-%d %H:%i')   endtime
+from doctor_scheduling din
+       inner join doctor_info di on din.doctorid = di.doctorid and ifnull(di.delflag, 0) = 0
+where ifnull(din.delflag, 0) = 0
+order by din.doctorid,din.visiting_start_time;
+
+发版将提现文案合并
